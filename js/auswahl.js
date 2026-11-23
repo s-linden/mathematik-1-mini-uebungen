@@ -23,7 +23,7 @@ const Auswahl = (() => {
 
     if (!galerie) {
       // Startbildschirm: je Gruppe die Frage und darunter die Teilaufgaben
-      // Raster: Spalte 1 Gruppennummer, Spalte 2 Teilaufgabe, Spalte 3 Text
+      // Raster: Spalte 1 Teilaufgabe, Spalte 2 Text; die gemeinsame Frage einer Gruppe geht über beide Spalten
       const raster = neu('auswahl-raster', wurzel);
       const zelle = (klasse, text, fett) => {
         const el = document.createElement(fett ? 'strong' : 'span');
@@ -32,17 +32,10 @@ const Auswahl = (() => {
         raster.appendChild(el);
       };
       for (const g of uebung.gruppen) {
-        let nr = g.nr;
-        if (g.text) {
-          zelle('auswahl-nr', nr, true);
-          zelle('auswahl-frage', g.text);
-          nr = '';
-        }
+        if (g.text) zelle('auswahl-frage', g.text);
         for (const a of uebung.aufgaben.filter((x) => x.gruppe === g.nr)) {
-          zelle('auswahl-nr', nr, true);
           zelle('auswahl-teil', a.teil, true);
           zelle('auswahl-satz', a.kurztext || a.text);
-          nr = '';
         }
       }
       return leer;

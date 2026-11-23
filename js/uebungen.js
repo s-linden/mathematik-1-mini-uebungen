@@ -39,10 +39,10 @@ const UEBUNGEN = {
       h: [193, 105],
     },
     aufgaben: [
-      { id: '1', ziel: 'g', aus: ['a', 'b'], weg: [['a', 1], ['b', 1]] },
-      { id: '2', ziel: 'f', aus: ['b', 'c'], weg: [['c', -1], ['b', 1]] },
-      { id: '3', ziel: 'e', aus: ['c', 'd'], weg: [['c', -1], ['d', 1]] },
-      { id: '4', ziel: 'e', aus: ['f', 'g', 'h'], weg: [['f', 1], ['g', -1], ['h', 1]] },
+      { id: 'i', nummer: 'i)', ziel: 'g', aus: ['a', 'b'], weg: [['a', 1], ['b', 1]] },
+      { id: 'ii', nummer: 'ii)', ziel: 'f', aus: ['b', 'c'], weg: [['c', -1], ['b', 1]] },
+      { id: 'iii', nummer: 'iii)', ziel: 'e', aus: ['c', 'd'], weg: [['c', -1], ['d', 1]] },
+      { id: 'iv', nummer: 'iv)', ziel: 'e', aus: ['f', 'g', 'h'], weg: [['f', 1], ['g', -1], ['h', 1]] },
     ],
   },
 
@@ -115,7 +115,7 @@ const UEBUNGEN = {
     ],
   },
 
-  // Auswahl-Übung (art: 'auswahl'): Aufgaben in Gruppen (gruppen: Nummer und Frage), je Aufgabe Text, Optionen, richtige Antwort
+  // Auswahl-Übung (art: 'auswahl'): Aufgaben in Gruppen (gruppen: gemeinsame Frage, darf leer sein), je Aufgabe Text, Optionen, richtige Antwort
   //   frage: kurze Frage für die Beamer-Auswertung
   //   mehrfach: true = mehrere Antworten wählbar, richtig ist dann eine Liste
   //   untereinander: true = Antwortknöpfe untereinander (für lange Formeln)
@@ -128,6 +128,7 @@ const UEBUNGEN = {
       { nr: '1', text: String.raw`Wie viele Lösungen $x \in \mathbb{R}$ hat die Gleichung?` },
       { nr: '2', text: '' },
     ],
+    // Nummerierung durchgehend i) bis vi); die Gruppen steuern nur die gemeinsame Frage
     aufgaben: (() => {
       const anzahl = [
         { wert: '0', anzeige: 'keine' },
@@ -137,13 +138,13 @@ const UEBUNGEN = {
       ];
       const v = (a, b, c) => String.raw`\begin{pmatrix} ${a} \\ ${b} \\ ${c} \end{pmatrix}`;
       const gleichung = (teil, tex, richtig, grund) => ({
-        id: '1' + teil, art: 'wahl', gruppe: '1', teil: teil + ')', nummer: `1${teil})`,
+        id: teil, art: 'wahl', gruppe: '1', teil: teil + ')', nummer: teil + ')',
         text: `$${tex}$`, frage: `Wie viele Lösungen hat $${tex}$?`, optionen: anzahl, richtig, grund,
       });
       return [
         {
           ...gleichung('i', '3x-1=5', '1', [String.raw`$3x-1=5 \;\Leftrightarrow\; 3x=6 \;\Leftrightarrow\; x=2$`]),
-          vorab: String.raw`1  Wie viele Lösungen $x \in \mathbb{R}$ hat die Gleichung?`,
+          vorab: String.raw`Wie viele Lösungen $x \in \mathbb{R}$ hat die Gleichung?`,
         },
         gleichung('ii', 'x^2=4', '2', [String.raw`$x=2$ und $x=-2$, denn $(\pm 2)^2=4$`]),
         gleichung('iii', '(x+1)^2=x^2+2x', '0', [
@@ -152,7 +153,7 @@ const UEBUNGEN = {
         ]),
         gleichung('iv', String.raw`\sin^2(x)+\cos^2(x)=1`, 'u', [String.raw`Die Gleichung gilt für alle $x \in \mathbb{R}$.`]),
         {
-          id: '2i', art: 'wahl', gruppe: '2', teil: 'i)', nummer: '2i)', untereinander: true, mehrfach: true,
+          id: 'v', art: 'wahl', gruppe: '2', teil: 'v)', nummer: 'v)', untereinander: true, mehrfach: true,
           text: String.raw`Welche Gleichung beschreibt die Gerade durch $P=(1,0,2)$ und $Q=(3,1,2)$?`,
           frage: String.raw`Gerade durch $P=(1,0,2)$ und $Q=(3,1,2)$`,
           optionen: [
@@ -168,7 +169,7 @@ const UEBUNGEN = {
           ],
         },
         {
-          id: '2ii', art: 'wahl', gruppe: '2', teil: 'ii)', nummer: '2ii)', mehrfach: true,
+          id: 'vi', art: 'wahl', gruppe: '2', teil: 'vi)', nummer: 'vi)', mehrfach: true,
           text: String.raw`Wählen Sie Vektoren aus, die Normalenvektoren der Ebene $E: x+y-z=1$ sind.`,
           frage: String.raw`Normalenvektoren von $E: x+y-z=1$`,
           optionen: [

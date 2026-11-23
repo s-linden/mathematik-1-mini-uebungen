@@ -436,8 +436,8 @@ button.klein { font-size: 0.95rem; padding: 0.4em 0.8em; }
 .auswahl { text-align: left; justify-items: start; gap: 1.1rem; font-size: clamp(1rem, 1.7vw, 1.5rem); }
 .antworten.formeln .katex { font-size: 0.85em; }
 .antworten.formeln .antwort { padding-top: 0.1rem; padding-bottom: 0.1rem; }
-.auswahl-raster { display: grid; grid-template-columns: 1.3em 2.3em 1fr; gap: 0.35em 0.2em; font-size: clamp(1rem, 1.7vw, 1.5rem); }
-.auswahl-frage { grid-column: 2 / -1; font-weight: 600; }
+.auswahl-raster { display: grid; grid-template-columns: 2.3em 1fr; gap: 0.35em 0.2em; font-size: clamp(1rem, 1.7vw, 1.5rem); }
+.auswahl-frage { grid-column: 1 / -1; font-weight: 600; }
 .auswahl-satz .katex { white-space: nowrap; }
 .auswahl-text strong { margin-right: 0.3em; }
 .auswahl-kasten { grid-template-columns: 1fr; font-size: 0.9em; }

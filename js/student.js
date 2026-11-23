@@ -54,7 +54,7 @@
   function frageFett(a) {
     const s = document.createElement('strong');
     const vektor = (v) => Pruefung.setze(document.createElement('span'), String.raw`\boldsymbol{\vec{${v}}}`);
-    s.append(`Aufgabe ${a.id}: `, vektor(a.ziel), ' aus ');
+    s.append(a.nummer ? `${a.nummer} ` : `Aufgabe ${a.id}: `, vektor(a.ziel), ' aus ');
     a.aus.forEach((v, i) => {
       if (i) s.append(i === a.aus.length - 1 ? ' und ' : ', ');
       s.append(vektor(v));
