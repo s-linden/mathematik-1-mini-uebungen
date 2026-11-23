@@ -152,7 +152,7 @@ const UEBUNGEN = {
         ]),
         gleichung('iv', String.raw`\sin^2(x)+\cos^2(x)=1`, 'u', [String.raw`Die Gleichung gilt für alle $x \in \mathbb{R}$.`]),
         {
-          id: '2i', art: 'wahl', gruppe: '2', teil: 'i)', nummer: '2i)', untereinander: true,
+          id: '2i', art: 'wahl', gruppe: '2', teil: 'i)', nummer: '2i)', untereinander: true, mehrfach: true,
           text: String.raw`Welche Gleichung beschreibt die Gerade durch $P=(1,0,2)$ und $Q=(3,1,2)$?`,
           frage: String.raw`Gerade durch $P=(1,0,2)$ und $Q=(3,1,2)$`,
           optionen: [
@@ -160,7 +160,7 @@ const UEBUNGEN = {
             { wert: 'b', anzeige: String.raw`$\vec{x}=P+s\cdot${v(3, 1, 2)}$` },
             { wert: 'c', anzeige: String.raw`$\vec{x}=${v(2, 1, 0)}+s\cdot${v(1, 0, 2)}$` },
           ],
-          richtig: 'a',
+          richtig: ['a'],
           grund: [
             String.raw`Richtungsvektor $\overrightarrow{QP}=P-Q=${v(-2, -1, 0)}$, Aufpunkt $Q$`,
             String.raw`$${v(3, 1, 2)}$ gehört zum Punkt $Q$, ist aber kein Richtungsvektor der Geraden.`,
@@ -169,7 +169,7 @@ const UEBUNGEN = {
         },
         {
           id: '2ii', art: 'wahl', gruppe: '2', teil: 'ii)', nummer: '2ii)', mehrfach: true,
-          text: String.raw`Welche Vektoren sind Normalenvektoren der Ebene $E: x+y-z=1$?`,
+          text: String.raw`Wählen Sie Vektoren aus, die Normalenvektoren der Ebene $E: x+y-z=1$ sind.`,
           frage: String.raw`Normalenvektoren von $E: x+y-z=1$`,
           optionen: [
             { wert: 'a', anzeige: `$${v(1, 1, -1)}$` },

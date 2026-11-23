@@ -110,7 +110,6 @@
     text.className = 'satz text-wahl';
     text.append(Object.assign(document.createElement('strong'), { textContent: a.nummer }), ' ',
       Pruefung.mix(document.createElement('span'), a.text));
-    if (a.mehrfach) text.append(' ', Object.assign(document.createElement('span'), { className: 'muted', textContent: '(Mehrere Antworten möglich.)' }));
 
     const optionen = document.createElement('div');
     optionen.className = 'optionen' + (a.untereinander ? ' untereinander' : a.optionen.some((o) => !o.anzeige.startsWith('$')) ? ' text' : '');
