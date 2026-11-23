@@ -92,9 +92,11 @@
     const a = ergebnis.aufgabe;
     const frei = freigegeben(a);
     renderNav();
+    if (skizze && skizze.aufgabe) skizze.aufgabe(a);
     Pruefung.mix($('frage'), Pruefung.frage(a));
     // Lange Textantworten brauchen eine breitere Spalte.
-    $('antworten').classList.toggle('breit', a.art === 'paar' || (a.art === 'wahl' && a.optionen.some((o) => !o.anzeige.startsWith('$'))));
+    $('antworten').classList.toggle('formeln', !!a.text && a.optionen.some((o) => o.anzeige.includes('pmatrix')));
+    $('antworten').classList.toggle('breit',a.art === 'paar' || (a.art === 'wahl' && a.optionen.some((o) => !o.anzeige.startsWith('$'))));
 
     $('zusammenfassung').textContent = frei
       ? `${ergebnis.richtig} von ${ergebnis.gesamt} richtig` + (ergebnis.gesamt ? ` (${Math.round((100 * ergebnis.richtig) / ergebnis.gesamt)} %)` : '')
@@ -117,7 +119,8 @@
     if (ergebnis.keine) zeilen.push(antwortZeile('Keine Antwort', ergebnis.keine, ergebnis.gesamt, 'neutral'));
     $('antworten').replaceChildren(...zeilen);
 
-    if (frei) Pruefung.mix($('loesung'), Pruefung.loesungSatz(a));
+    // Auswahl-Übungen: Die richtige Antwort steht grün oben, die Begründung links.
+    if (frei && !a.text) Pruefung.mix($('loesung'), Pruefung.loesungSatz(a));
     else $('loesung').replaceChildren();
     $('btn-loesung').textContent = frei ? 'Noch einmal abspielen' : 'Lösung zeigen';
     abgabeKnopf();

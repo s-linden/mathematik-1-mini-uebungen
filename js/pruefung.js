@@ -86,6 +86,10 @@ const Pruefung = (() => {
 
   // Daten kommen von fremden Geräten: nur Antworten aus den erlaubten Vektoren zählen.
   function gueltig(aufgabe, kurz) {
+    if (aufgabe.art === 'wahl' && aufgabe.mehrfach) {
+      const t = kurz.split(',');
+      return t.every((w) => aufgabe.optionen.some((o) => o.wert === w)) && t.join(',') === [...new Set(t)].sort().join(',');
+    }
     if (aufgabe.art === 'wahl') return aufgabe.optionen.some((o) => o.wert === kurz);
     if (aufgabe.art === 'paar') return !!paar(kurz);
     if (kurz === '0') return true;
@@ -104,27 +108,35 @@ const Pruefung = (() => {
   const texZiel = (a) => vek(a.ziel);
   const texFrage = (a) => vek(a.ziel) + String.raw`\text{ aus }` + liste(a.aus);
   const texLoesung = (a) => `${vek(a.ziel)}=${texTerme(ausWeg(a))}`;
-  const loesung = (a) => (a.art === 'wahl' ? a.richtig : normal(ausWeg(a)));
+  // Mehrfachauswahl (mehrfach: true): Kurzform sind die gewählten Werte, sortiert und mit Komma getrennt
+  const loesung = (a) => (a.art === 'wahl' ? (a.mehrfach ? [...a.richtig].sort().join(',') : a.richtig) : normal(ausWeg(a)));
 
   // Anzeigen für alle Aufgabenarten, als Text mit Formeln zwischen $…$
-  const option = (a, kurz) => a.optionen.find((o) => o.wert === kurz).anzeige;
+  const einzeln = (a, w) => a.optionen.find((o) => o.wert === w).anzeige;
+  function option(a, kurz) {
+    if (!a.mehrfach) return einzeln(a, kurz);
+    const t = kurz.split(',').map((w) => einzeln(a, w));
+    return t.length > 1 ? t.slice(0, -1).join(', ') + ' und ' + t[t.length - 1] : t[0];
+  }
   function anzeige(a, kurz) {
     if (a.art === 'wahl') return option(a, kurz);
     if (a.art === 'paar') return `$${paarTex(paar(kurz))}$`;
     return `$${texKurz(kurz)}$`;
   }
   function frage(a) {
+    if (a.art === 'wahl' && a.text) return a.frage;
     if (a.art === 'wahl') return `${a.vor} ${a.luecke} ${a.nach}`;
     if (a.art === 'paar') return String.raw`$\vec{a},\vec{b}\neq\vec{0}$, die ${a.eigenschaft}`;
     return `$${texFrage(a)}$`;
   }
   function satz(a, kurz) {
+    if (a.art === 'wahl' && a.text) return option(a, kurz);
     if (a.art === 'wahl') return `${a.vor} ${option(a, kurz)} ${a.nach}`;
     if (a.art === 'paar') return anzeige(a, kurz);
     return `$${texZiel(a)}=${texKurz(kurz)}$`;
   }
   function loesungSatz(a) {
-    if (a.art === 'wahl') return satz(a, a.richtig);
+    if (a.art === 'wahl') return satz(a, loesung(a));
     if (a.art === 'paar') return `Zum Beispiel $${paarTex(a.beispiel)}$`;
     return `$${texLoesung(a)}$`;
   }

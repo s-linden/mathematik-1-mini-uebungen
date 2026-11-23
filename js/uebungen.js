@@ -114,4 +114,76 @@ const UEBUNGEN = {
       { id: 'v', art: 'paar', nummer: 'v)', eigenschaft: 'linear unabhängig sind', liste: 'linear unabhängig', test: 'unabhaengig', beispiel: [[1, 2], [3, 1]] },
     ],
   },
+
+  // Auswahl-Übung (art: 'auswahl'): Aufgaben in Gruppen (gruppen: Nummer und Frage), je Aufgabe Text, Optionen, richtige Antwort
+  //   frage: kurze Frage für die Beamer-Auswertung
+  //   mehrfach: true = mehrere Antworten wählbar, richtig ist dann eine Liste
+  //   untereinander: true = Antwortknöpfe untereinander (für lange Formeln)
+  //   grund: Zeilen der Begründung, die bei der Lösung erscheinen
+  'gleichungen-geraden-ebenen': {
+    titel: 'Lösungen von Gleichungen, Geraden und Ebenen',
+    art: 'auswahl',
+    hinweis: '',
+    gruppen: [
+      { nr: '1', text: String.raw`Wie viele Lösungen $x \in \mathbb{R}$ hat die Gleichung?` },
+      { nr: '2', text: '' },
+    ],
+    aufgaben: (() => {
+      const anzahl = [
+        { wert: '0', anzeige: 'keine' },
+        { wert: '1', anzeige: 'genau eine' },
+        { wert: '2', anzeige: 'genau zwei' },
+        { wert: 'u', anzeige: 'unendlich viele' },
+      ];
+      const v = (a, b, c) => String.raw`\begin{pmatrix} ${a} \\ ${b} \\ ${c} \end{pmatrix}`;
+      const gleichung = (teil, tex, richtig, grund) => ({
+        id: '1' + teil, art: 'wahl', gruppe: '1', teil: teil + ')', nummer: `1${teil})`,
+        text: `$${tex}$`, frage: `Wie viele Lösungen hat $${tex}$?`, optionen: anzahl, richtig, grund,
+      });
+      return [
+        {
+          ...gleichung('i', '3x-1=5', '1', [String.raw`$3x-1=5 \;\Leftrightarrow\; 3x=6 \;\Leftrightarrow\; x=2$`]),
+          vorab: String.raw`1  Wie viele Lösungen $x \in \mathbb{R}$ hat die Gleichung?`,
+        },
+        gleichung('ii', 'x^2=4', '2', [String.raw`$x=2$ und $x=-2$, denn $(\pm 2)^2=4$`]),
+        gleichung('iii', '(x+1)^2=x^2+2x', '0', [
+          String.raw`$(x+1)^2=x^2+2x+1$, also`,
+          String.raw`$x^2+2x+1=x^2+2x \;\Leftrightarrow\; 1=0$: Widerspruch`,
+        ]),
+        gleichung('iv', String.raw`\sin^2(x)+\cos^2(x)=1`, 'u', [String.raw`Die Gleichung gilt für alle $x \in \mathbb{R}$.`]),
+        {
+          id: '2i', art: 'wahl', gruppe: '2', teil: 'i)', nummer: '2i)', untereinander: true,
+          text: String.raw`Welche Gleichung beschreibt die Gerade durch $P=(1,0,2)$ und $Q=(3,1,2)$?`,
+          frage: String.raw`Gerade durch $P=(1,0,2)$ und $Q=(3,1,2)$`,
+          optionen: [
+            { wert: 'a', anzeige: String.raw`$\vec{x}=Q+s\cdot${v(-2, -1, 0)}$` },
+            { wert: 'b', anzeige: String.raw`$\vec{x}=P+s\cdot${v(3, 1, 2)}$` },
+            { wert: 'c', anzeige: String.raw`$\vec{x}=${v(2, 1, 0)}+s\cdot${v(1, 0, 2)}$` },
+          ],
+          richtig: 'a',
+          grund: [
+            String.raw`Richtungsvektor $\overrightarrow{QP}=P-Q=${v(-2, -1, 0)}$, Aufpunkt $Q$`,
+            String.raw`$${v(3, 1, 2)}$ gehört zum Punkt $Q$, ist aber kein Richtungsvektor der Geraden.`,
+            String.raw`$${v(2, 1, 0)}$ ist ein Richtungsvektor, aber kein Punkt der Geraden.`,
+          ],
+        },
+        {
+          id: '2ii', art: 'wahl', gruppe: '2', teil: 'ii)', nummer: '2ii)', mehrfach: true,
+          text: String.raw`Welche Vektoren sind Normalenvektoren der Ebene $E: x+y-z=1$?`,
+          frage: String.raw`Normalenvektoren von $E: x+y-z=1$`,
+          optionen: [
+            { wert: 'a', anzeige: `$${v(1, 1, -1)}$` },
+            { wert: 'b', anzeige: `$${v(1, 1, 1)}$` },
+            { wert: 'c', anzeige: `$${v(-2, -2, 2)}$` },
+          ],
+          richtig: ['a', 'c'],
+          grund: [
+            String.raw`Die Koeffizienten von $x$, $y$, $z$ bilden einen Normalenvektor: $\vec{n}=${v(1, 1, -1)}$`,
+            String.raw`Jedes Vielfache $\neq\vec{0}$ ist auch einer, z. B. $${v(-2, -2, 2)}=-2\vec{n}$`,
+            String.raw`$${v(1, 1, 1)}$ ist kein Vielfaches von $\vec{n}$.`,
+          ],
+        },
+      ];
+    })(),
+  },
 };

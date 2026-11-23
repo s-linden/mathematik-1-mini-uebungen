@@ -430,3 +430,21 @@ button.klein { font-size: 0.95rem; padding: 0.4em 0.8em; }
 /* Aufzählung i) … v): Texte bündig hinter den Nummern */
 .paar-liste { grid-template-columns: max-content 1fr; column-gap: 0.45em; row-gap: 0.1em; }
 .paar-liste > div { display: contents; }
+
+/* ---------- Auswahl-Übung (art: 'auswahl') ---------- */
+.skizze-box.leer { display: none; }
+.auswahl { text-align: left; justify-items: start; gap: 1.1rem; font-size: clamp(1rem, 1.7vw, 1.5rem); }
+.antworten.formeln .katex { font-size: 0.85em; }
+.antworten.formeln .antwort { padding-top: 0.1rem; padding-bottom: 0.1rem; }
+.auswahl-raster { display: grid; grid-template-columns: 1.3em 2.3em 1fr; gap: 0.35em 0.2em; font-size: clamp(1rem, 1.7vw, 1.5rem); }
+.auswahl-frage { grid-column: 2 / -1; font-weight: 600; }
+.auswahl-satz .katex { white-space: nowrap; }
+.auswahl-text strong { margin-right: 0.3em; }
+.auswahl-kasten { grid-template-columns: 1fr; font-size: 0.9em; }
+.auswahl-kasten .kasten-grund { padding-left: 0; color: var(--text); white-space: normal; }
+.text-wahl { margin-top: 0; }
+.text-wahl > strong { margin-right: 0.3em; }
+.optionen.untereinander { grid-template-columns: 1fr; }
+.optionen.untereinander .option { text-align: left; padding-left: 0.9em; }
+.begruendung-handy { margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.95rem; display: grid; gap: 0.3rem; }
+.begruendung-handy .katex { white-space: nowrap; }

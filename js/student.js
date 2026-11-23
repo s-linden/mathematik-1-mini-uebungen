@@ -103,7 +103,47 @@
     karte.append(kopf, zeile, tasten);
   }
 
+  // Auswahl-Aufgabe mit eigenem Text (Übungsart 'auswahl'); mehrfach: mehrere Antworten wählbar
+  function textWahlKarte(a, karte) {
+    // Nummer und Text in einer Zeile: „1i)  3x − 1 = 5“
+    const text = document.createElement('div');
+    text.className = 'satz text-wahl';
+    text.append(Object.assign(document.createElement('strong'), { textContent: a.nummer }), ' ',
+      Pruefung.mix(document.createElement('span'), a.text));
+    if (a.mehrfach) text.append(' ', Object.assign(document.createElement('span'), { className: 'muted', textContent: '(Mehrere Antworten möglich.)' }));
+
+    const optionen = document.createElement('div');
+    optionen.className = 'optionen' + (a.untereinander ? ' untereinander' : a.optionen.some((o) => !o.anzeige.startsWith('$')) ? ' text' : '');
+    const gewaehlt = () => (eingaben[a.id] ? eingaben[a.id].split(',') : []);
+    const knoepfe = a.optionen.map((o) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'option';
+      Pruefung.mix(b, o.anzeige);
+      b.onclick = () => {
+        let w = gewaehlt();
+        if (a.mehrfach) w = w.includes(o.wert) ? w.filter((x) => x !== o.wert) : [...w, o.wert];
+        else w = w.includes(o.wert) ? [] : [o.wert]; // erneutes Antippen hebt die Wahl auf
+        eingaben[a.id] = w.sort().join(',');
+        anzeigen[a.id]();
+      };
+      optionen.appendChild(b);
+      return b;
+    });
+
+    anzeigen[a.id] = () => {
+      const w = gewaehlt();
+      a.optionen.forEach((o, i) => {
+        knoepfe[i].classList.toggle('gewaehlt', w.includes(o.wert));
+        knoepfe[i].setAttribute('aria-pressed', w.includes(o.wert));
+      });
+      aktualisiereKnopf();
+    };
+    karte.append(text, optionen);
+  }
+
   function wahlKarte(a, karte) {
+    if (a.text) return textWahlKarte(a, karte);
     const kopf = kopfElement(a);
     const titel = document.createElement('strong');
     titel.textContent = a.kopf;
@@ -220,7 +260,7 @@
       if (a.vorab) {
         const p = document.createElement('p');
         p.className = 'vorab';
-        p.textContent = a.vorab;
+        Pruefung.mix(p, a.vorab);
         box.appendChild(p);
       }
       const karte = document.createElement('div');
@@ -276,7 +316,10 @@
 
       const zeile = document.createElement('div');
       zeile.className = a.art ? 'satz' : 'gleichung';
-      if (antwort) Pruefung.mix(zeile, Pruefung.satz(a, antwort));
+      if (antwort && a.text) {
+        zeile.append('Ihre Antwort: ');
+        zeile.appendChild(Pruefung.mix(document.createElement('span'), Pruefung.satz(a, antwort)));
+      } else if (antwort) Pruefung.mix(zeile, Pruefung.satz(a, antwort));
       else zeile.innerHTML = '<span class="muted">Keine Antwort abgegeben</span>';
       karte.append(kopf, zeile);
 
@@ -287,6 +330,15 @@
       if (frei && !richtig) {
         const l = document.createElement('div');
         l.className = 'loesung';
+        if (a.text) {
+          l.append('Richtig: ');
+          l.appendChild(Pruefung.mix(document.createElement('span'), Pruefung.loesungSatz(a)));
+          karte.appendChild(l);
+        }
+      }
+      if (frei && !richtig && !a.text) {
+        const l = document.createElement('div');
+        l.className = 'loesung';
         if (a.art === 'paar') {
           Pruefung.mix(l, `Richtig wäre zum Beispiel ${Pruefung.anzeige(a, Pruefung.paarKurz(a.beispiel))}.`);
         } else {
@@ -294,6 +346,13 @@
           l.appendChild(Pruefung.mix(document.createElement('span'), Pruefung.loesungSatz(a)));
         }
         karte.appendChild(l);
+      }
+      // Auswahl-Aufgaben: nach der Freigabe auch die Begründung
+      if (frei && a.grund) {
+        const g = document.createElement('div');
+        g.className = 'begruendung-handy';
+        for (const t of a.grund) g.appendChild(Pruefung.mix(document.createElement('div'), t));
+        karte.appendChild(g);
       }
       box.appendChild(karte);
     }
