@@ -13,9 +13,10 @@ Die Reihenfolge der Terme spielt keine Rolle: `−c + b` und `b − c` zählen a
 
 ## Neue Miniübung ergänzen
 
-Alle Übungen stehen in [`js/uebungen.js`](js/uebungen.js), die Auswahl dazu erscheint am Beamer. Es gibt zwei Arten:
+Alle Übungen stehen in [`js/uebungen.js`](js/uebungen.js), die Auswahl dazu erscheint am Beamer. Es gibt diese Arten:
 - **Vektor-Übung:** Punkte der Skizze, Vektoren (Start- und Endpunkt), Position der Beschriftungen und je Aufgabe der Lösungsweg.
 - **Aussagen-Übung** (`art: 'aussagen'`): Auswahlaufgaben mit Optionen, richtiger Antwort und einem Begründungskasten, der bei der Lösung erscheint.
+- **Auswahl-Übung** (`art: 'auswahl'`): Aufgaben in Gruppen (1i), 1ii), …, 2i), …) mit Antwortknöpfen, auch mit Formeln und Vektoren. Mit `mehrfach: true` sind mehrere Antworten wählbar. Bei der Lösung erscheint die Begründung (`grund`) am Beamer und auf den Handys. Beispiel: „Lösungen von Gleichungen, Geraden und Ebenen“.
 - **Vektorpaar-Übung** (`art: 'paare'`): Je Teilaufgabe werden zwei Vektoren im ℝ² eingegeben (mit Pfeil-Vorschau). Das Tool prüft exakt, ob sie orthogonal, parallel (a = s·b mit s > 0), antiparallel (s < 0), linear abhängig oder unabhängig sind, und zeigt am Beamer eine Galerie der Paare sowie die Fehlergründe (z. B. „antiparallel“, „Nullvektor“).
 
 ## Ausprobieren ohne Einrichtung (Demo-Modus)
