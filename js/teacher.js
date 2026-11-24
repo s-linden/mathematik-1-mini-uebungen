@@ -99,11 +99,12 @@
     $('antworten').classList.toggle('breit',a.art === 'paar' || (a.art === 'wahl' && a.optionen.some((o) => !o.anzeige.startsWith('$'))));
 
     $('zusammenfassung').textContent = frei
-      ? `${ergebnis.richtig} von ${ergebnis.gesamt} richtig` + (ergebnis.gesamt ? ` (${Math.round((100 * ergebnis.richtig) / ergebnis.gesamt)} %)` : '')
+      ? `${ergebnis.richtig} von ${ergebnis.gesamt} ${a.mehrfach ? 'vollständig ' : ''}richtig` + (ergebnis.gesamt ? ` (${Math.round((100 * ergebnis.richtig) / ergebnis.gesamt)} %)` : '')
       : `${ergebnis.gesamt} ${ergebnis.gesamt === 1 ? 'Abgabe' : 'Abgaben'} · ` + (a.art === 'paar' ? 'Stimmen die Paare?' : 'Welche Antwort stimmt?');
     $('btn-loesung').hidden = frei && !!a.art; // ohne Animation gibt es nichts zu wiederholen
     $('loesung').classList.toggle('klein', a.art === 'paar');
     if (a.art === 'paar') return renderPaare(ergebnis, frei);
+    if (a.mehrfach) return renderJeOption(ergebnis, frei);
 
     // Nach der Freigabe steht die richtige Antwort immer oben, auch wenn sie niemand gegeben hat.
     let liste = ergebnis.antworten;
@@ -123,6 +124,21 @@
     if (frei && !a.text) Pruefung.mix($('loesung'), Pruefung.loesungSatz(a));
     else $('loesung').replaceChildren();
     $('btn-loesung').textContent = frei ? 'Noch einmal abspielen' : 'Lösung zeigen';
+    abgabeKnopf();
+  }
+
+  // Mehrfachauswahl: je Option, wie viele sie angetippt haben (in fester Reihenfolge, damit nichts verraten wird).
+  // Nach der Freigabe sind die richtigen Optionen grün, die falschen rot.
+  function renderJeOption(ergebnis, frei) {
+    const a = ergebnis.aufgabe;
+    const zeilen = a.optionen.map((o) => {
+      const n = ergebnis.antworten.filter((x) => x.kurz.split(',').includes(o.wert)).reduce((s, x) => s + x.n, 0);
+      return antwortZeile(o.anzeige, n, ergebnis.gesamt, frei ? (a.richtig.includes(o.wert) ? 'richtig' : 'falsch') : '');
+    });
+    if (ergebnis.keine) zeilen.push(antwortZeile('Keine Antwort', ergebnis.keine, ergebnis.gesamt, 'neutral'));
+    $('antworten').replaceChildren(...zeilen);
+    $('loesung').replaceChildren();
+    $('btn-loesung').textContent = 'Lösung zeigen';
     abgabeKnopf();
   }
 
