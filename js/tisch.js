@@ -92,11 +92,16 @@ const Tisch = (() => {
     const oben = PLATTE - T, x = 12;
     neu('path', { class: 'klammer', d: `M ${x + 10} ${BODEN} h -8 V ${oben} h 8` }, loesung);
     neu('line', { class: 'hilfslinie', x1: 30, y1: oben, x2: 270, y2: oben }, loesung);
-    const zeilen = ['Katze auf Katze: Sie heben sich auf.', '170 cm + 130 cm = 2 · Tischhöhe', '2 · Tischhöhe = 300 cm', 'Tischhöhe = 150 cm'];
-    zeilen.forEach((z, i) => {
-      const t = neu('text', { class: 'rechnung' + (i === 3 ? ' ergebnis' : ''), x: 420, y: 120 + i * 52 }, loesung);
+    const zeilen = [
+      ['Die beiden Bilder so übereinander', 110],
+      ['legen, dass Katze auf Katze liegt:', 142],
+      ['2 · Tischhöhe = 170 cm + 130 cm', 214],
+      ['Tischhöhe = 150 cm', 282, ' ergebnis'],
+    ];
+    for (const [z, y, extra = ''] of zeilen) {
+      const t = neu('text', { class: 'rechnung' + extra, x: 420, y }, loesung);
       t.textContent = z;
-    });
+    }
 
     let lauf = 0;
     function setzeAusschnitt(v) { svg.setAttribute('viewBox', v.join(' ')); }

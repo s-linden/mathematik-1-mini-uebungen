@@ -126,7 +126,7 @@ const UEBUNGEN = {
       {
         id: 'i', art: 'zahl', nummer: 'Tischhöhe', frage: 'Wie hoch ist der Tisch?', einheit: 'cm', richtig: 150,
         grund: [
-          'Bild 2 auf Bild 1 stellen: Die Katzen liegen genau übereinander und heben sich auf.',
+          'Rechtes Bild so auf linkes Bild stellen, dass die Katzen genau übereinander liegen.',
           'Die beiden Maßpfeile reichen dann über zwei Tischhöhen: 170 cm + 130 cm = 300 cm.',
           'Also ist der Tisch 150 cm hoch.',
         ],
