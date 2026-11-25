@@ -135,6 +135,10 @@ const Backend = (() => {
         const b = zufall < 0.65 ? richtigesB : [z(), z()];
         return Pruefung.paarKurz([u, b]);
       }
+      if (a.art === 'zahl') {
+        if (zufall < 0.5) return String(a.richtig);
+        return String([130, 140, 160, 170, 300, 100, 75][Math.floor(Math.random() * 7)]);
+      }
       if (a.art === 'wahl' && a.mehrfach) {
         if (zufall < 0.5) return Pruefung.loesung(a);
         return a.optionen.filter(() => Math.random() < 0.5).map((o) => o.wert).sort().join(',') || a.optionen[0].wert;

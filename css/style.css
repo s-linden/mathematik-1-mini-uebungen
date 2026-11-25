@@ -448,3 +448,30 @@ button.klein { font-size: 0.95rem; padding: 0.4em 0.8em; }
 .optionen.untereinander .option { text-align: left; padding-left: 0.9em; }
 .begruendung-handy { margin-top: 0.5rem; padding-top: 0.4rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.95rem; display: grid; gap: 0.3rem; }
 .begruendung-handy .katex { white-space: nowrap; }
+
+/* ---------- Knobelaufgabe Tisch, Katze, Schildkröte (art: 'tisch') ---------- */
+.tisch-aufgabe { gap: 0.6rem; }
+.tisch-skizze { display: block; width: 100%; height: auto; overflow: visible; }
+.tisch-skizze .tisch { fill: #a16207; }
+.tisch-skizze .boden { stroke: var(--muted); stroke-width: 2; }
+.tisch-skizze .katze { fill: #57534e; }
+.tisch-skizze .katze-schwanz { fill: none; stroke: #57534e; stroke-width: 6; stroke-linecap: round; }
+.tisch-skizze .kroete-panzer { fill: #4d7c0f; }
+.tisch-skizze .kroete-haut { fill: #84cc16; }
+.tisch-skizze .mass line { stroke: var(--accent); stroke-width: 2.5; }
+.tisch-skizze .mass .hilfslinie, .tisch-skizze .hilfslinie { stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.tisch-skizze .mass .spitze { fill: var(--accent); }
+.tisch-skizze .mass text { font: 700 25px system-ui, sans-serif; fill: var(--accent); }
+.tisch-skizze .bild-zwei { transition: none; }
+.tisch-skizze.bewegt .bild-zwei { transition: transform 1.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.tisch-skizze.gestapelt .bild-zwei .boden { opacity: 0; transition: opacity 0.4s; }
+.tisch-skizze .tisch-loesung { opacity: 0; }
+.tisch-skizze.fertig .tisch-loesung { opacity: 1; transition: opacity 0.6s; }
+.tisch-skizze .klammer { fill: none; stroke: var(--richtig); stroke-width: 3; }
+.tisch-skizze .rechnung { font: 400 24px system-ui, sans-serif; fill: var(--text); }
+.tisch-skizze .rechnung.ergebnis { font-weight: 700; fill: var(--richtig); font-size: 28px; }
+.tisch-skizze.fertig .katze { opacity: 0.55; }
+.zahl-eingabe { display: flex; align-items: center; gap: 0.5rem; margin: 0.3rem 0 0.2rem; font-size: 1.3rem; }
+.zahl-eingabe input { width: 7rem; font: inherit; padding: 0.35em 0.5em; border: 2px solid var(--border); border-radius: 10px; text-align: right; background: var(--surface); color: var(--text); }
+.zahl-eingabe input:focus { outline: 3px solid var(--accent); border-color: var(--accent); }
+.tisch-frage { font-weight: 700; }

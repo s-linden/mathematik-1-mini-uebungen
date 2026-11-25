@@ -115,6 +115,25 @@ const UEBUNGEN = {
     ],
   },
 
+  // Knobelaufgabe mit Skizze (art: 'tisch', Zeichnung und Animation in js/tisch.js).
+  // Aufgabe mit art: 'zahl' = freie Eingabe einer ganzen Zahl, die Einheit steht rechts neben dem Feld.
+  'tisch-katze-schildkroete': {
+    titel: 'Wie hoch ist der Tisch?',
+    art: 'tisch',
+    hinweis: '',
+    vorspann: 'Wie hoch ist der Tisch?',
+    aufgaben: [
+      {
+        id: 'i', art: 'zahl', nummer: 'Tischhöhe', frage: 'Wie hoch ist der Tisch?', einheit: 'cm', richtig: 150,
+        grund: [
+          'Bild 2 auf Bild 1 stellen: Die Katzen liegen genau übereinander und heben sich auf.',
+          'Die beiden Maßpfeile reichen dann über zwei Tischhöhen: 170 cm + 130 cm = 300 cm.',
+          'Also ist der Tisch 150 cm hoch.',
+        ],
+      },
+    ],
+  },
+
   // Auswahl-Übung (art: 'auswahl'): Aufgaben in Gruppen (gruppen: gemeinsame Frage, darf leer sein), je Aufgabe Text, Optionen, richtige Antwort
   //   frage: kurze Frage für die Beamer-Auswertung
   //   mehrfach: true = mehrere Antworten wählbar, richtig ist dann eine Liste

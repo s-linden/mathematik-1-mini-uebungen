@@ -14,7 +14,7 @@
     for (const v of ['loading', 'message', 'form', 'ergebnis']) $('view-' + v).hidden = v !== view;
     $('skizze-box').hidden = view !== 'form' && view !== 'ergebnis';
     // Nur die Skizze beim Eingeben bleibt oben festgepinnt.
-    $('skizze-box').classList.toggle('frei', view === 'ergebnis' || (uebung && uebung.art === 'aussagen'));
+    $('skizze-box').classList.toggle('frei', view === 'ergebnis' || (uebung && ['aussagen', 'tisch'].includes(uebung.art)));
   }
 
   function message(title, text) {
@@ -26,6 +26,7 @@
   // Antwort einer Aufgabe in der gespeicherten Kurzform; '' = noch nichts eingegeben
   function kurzform(a) {
     if (a.art === 'wahl') return eingaben[a.id];
+    if (a.art === 'zahl') return eingaben[a.id] ? String(Number(eingaben[a.id])) : '';
     if (a.art === 'paar') {
       const z = eingaben[a.id].map(Pruefung.zahl);
       return z.every((x) => x !== null) ? Pruefung.paarKurz([[z[0], z[1]], [z[2], z[3]]]) : '';
@@ -248,13 +249,41 @@
     karte.append(kopf, zeile, vorzeichen, hinweis);
   }
 
+  // Freie Eingabe einer ganzen Zahl, Einheit rechts daneben
+  function zahlKarte(a, karte) {
+    const text = document.createElement('div');
+    text.className = 'satz text-wahl';
+    text.appendChild(Pruefung.mix(document.createElement('span'), a.frage));
+    const zeile = document.createElement('label');
+    zeile.className = 'zahl-eingabe';
+    const feld = document.createElement('input');
+    feld.type = 'text';
+    feld.inputMode = 'numeric';
+    feld.autocomplete = 'off';
+    feld.maxLength = 6;
+    feld.setAttribute('aria-label', a.frage.replace(/\$/g, ''));
+    feld.oninput = () => {
+      const nur = feld.value.replace(/\D/g, '').slice(0, 6); // nur ganze Zahlen
+      if (feld.value !== nur) feld.value = nur;
+      eingaben[a.id] = nur;
+      anzeigen[a.id]();
+    };
+    const einheit = Object.assign(document.createElement('span'), { className: 'einheit', textContent: a.einheit });
+    zeile.append(feld, einheit);
+    anzeigen[a.id] = () => {
+      if (feld.value !== eingaben[a.id]) feld.value = eingaben[a.id];
+      aktualisiereKnopf();
+    };
+    karte.append(text, zeile);
+  }
+
   // Leeres Feld oder nur ein Minus: noch in Arbeit, kein Fehler
   const unfertig = (w) => ['', '-', '−'].includes(w.trim());
 
   function baueFormular() {
     const box = $('aufgaben');
     box.replaceChildren();
-    for (const a of uebung.aufgaben) eingaben[a.id] = a.art === 'wahl' ? '' : a.art === 'paar' ? ['', '', '', ''] : [];
+    for (const a of uebung.aufgaben) eingaben[a.id] = a.art === 'wahl' || a.art === 'zahl' ? '' : a.art === 'paar' ? ['', '', '', ''] : [];
     for (const a of uebung.aufgaben) {
       if (a.vorab) {
         const p = document.createElement('p');
@@ -266,6 +295,7 @@
       karte.className = 'aufgabe';
       if (a.art === 'wahl') wahlKarte(a, karte);
       else if (a.art === 'paar') paarKarte(a, karte);
+      else if (a.art === 'zahl') zahlKarte(a, karte);
       else vektorKarte(a, karte);
       box.appendChild(karte);
       anzeigen[a.id]();
@@ -278,7 +308,7 @@
         const p = Pruefung.paar(antworten[a.id]);
         eingaben[a.id] = p ? p.flat().map((x) => String(x).replace('.', ',')) : ['', '', '', ''];
       } else {
-        eingaben[a.id] = a.art === 'wahl' ? (antworten[a.id] || '') : Pruefung.terme(antworten[a.id]);
+        eingaben[a.id] = a.art === 'wahl' || a.art === 'zahl' ? (antworten[a.id] || '') : Pruefung.terme(antworten[a.id]);
       }
       anzeigen[a.id]();
     }
@@ -315,7 +345,7 @@
 
       const zeile = document.createElement('div');
       zeile.className = a.art ? 'satz' : 'gleichung';
-      if (antwort && a.text) {
+      if (antwort && (a.text || a.art === 'zahl')) {
         zeile.append('Ihre Antwort: ');
         zeile.appendChild(Pruefung.mix(document.createElement('span'), Pruefung.satz(a, antwort)));
       } else if (antwort) Pruefung.mix(zeile, Pruefung.satz(a, antwort));

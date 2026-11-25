@@ -19,6 +19,7 @@ Alle Übungen stehen in [`js/uebungen.js`](js/uebungen.js), die Auswahl dazu ers
 - **Vektor-Übung:** Punkte der Skizze, Vektoren (Start- und Endpunkt), Position der Beschriftungen und je Aufgabe der Lösungsweg.
 - **Aussagen-Übung** (`art: 'aussagen'`): Auswahlaufgaben mit Optionen, richtiger Antwort und einem Begründungskasten, der bei der Lösung erscheint.
 - **Auswahl-Übung** (`art: 'auswahl'`): Aufgaben i), ii), … mit Antwortknöpfen, optional mit gemeinsamer Frage für eine Gruppe, auch mit Formeln und Vektoren. Mit `mehrfach: true` sind mehrere Antworten wählbar. Bei der Lösung erscheint die Begründung (`grund`) am Beamer und auf den Handys. Beispiel: „Lösungen von Gleichungen, Geraden und Ebenen“.
+- **Knobelaufgabe „Wie hoch ist der Tisch?“** (`art: 'tisch'`, Skizze in `js/tisch.js`): freie Eingabe einer ganzen Zahl mit Einheit (`art: 'zahl'`), bei der Lösung wird Bild 2 auf Bild 1 gestellt.
 - **Vektorpaar-Übung** (`art: 'paare'`): Je Teilaufgabe werden zwei Vektoren im ℝ² eingegeben (mit Pfeil-Vorschau). Das Tool prüft exakt, ob sie orthogonal, parallel (a = s·b mit s > 0), antiparallel (s < 0), linear abhängig oder unabhängig sind, und zeigt am Beamer eine Galerie der Paare sowie die Fehlergründe (z. B. „antiparallel“, „Nullvektor“).
 
 ## Ausprobieren ohne Einrichtung (Demo-Modus)

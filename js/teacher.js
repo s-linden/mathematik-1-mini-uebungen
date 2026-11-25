@@ -101,7 +101,7 @@
     $('zusammenfassung').textContent = frei
       ? `${ergebnis.richtig} von ${ergebnis.gesamt} ${a.mehrfach ? 'vollständig ' : ''}richtig` + (ergebnis.gesamt ? ` (${Math.round((100 * ergebnis.richtig) / ergebnis.gesamt)} %)` : '')
       : `${ergebnis.gesamt} ${ergebnis.gesamt === 1 ? 'Abgabe' : 'Abgaben'} · ` + (a.art === 'paar' ? 'Stimmen die Paare?' : 'Welche Antwort stimmt?');
-    $('btn-loesung').hidden = frei && !!a.art; // ohne Animation gibt es nichts zu wiederholen
+    $('btn-loesung').hidden = frei && !!a.art && a.art !== 'zahl'; // ohne Animation gibt es nichts zu wiederholen
     $('loesung').classList.toggle('klein', a.art === 'paar');
     if (a.art === 'paar') return renderPaare(ergebnis, frei);
     if (a.mehrfach) return renderJeOption(ergebnis, frei);

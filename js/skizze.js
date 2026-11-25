@@ -51,6 +51,7 @@ const Skizze = (() => {
     if (uebung.art === 'aussagen') return Aussagen.erstelle(box, uebung, optionen);
     if (uebung.art === 'paare') return Paare.erstelle(box, uebung, optionen);
     if (uebung.art === 'auswahl') return Auswahl.erstelle(box, uebung, optionen);
+    if (uebung.art === 'tisch') return Tisch.erstelle(box, uebung, optionen);
     const svg = neu('svg', {
       class: 'skizze',
       viewBox: uebung.viewBox,
